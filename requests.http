@@ -3,15 +3,23 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "ex@mp.le",
-  "password": "ashgISUY876"
+  "email": "hfksd@mp.le",
+  "password": "${{$randomInt 10000000 999999999}}"
 }
 
 ### Find user with a given id
 GET http://localhost:3000/auth/1
 
 ### Find all users with a given email
-GET http://localhost:3000/auth?email=ex@mp.le
+GET http://localhost:3000/auth?email=hfksd@mp.le
 
 ### Delete user with a given id
 DELETE http://localhost:3000/auth/1
+
+### Update user
+PATCH http://localhost:3000/auth/5
+Content-Type: application/json
+
+{
+  "password": "an@mail.com123"
+}
