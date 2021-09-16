@@ -38,6 +38,11 @@ export class UsersController {
     return await this.authService.signUp(body.email, body.password);
   }
 
+  @Post('signIn')
+  async signIn(@Body() body: CreateUserDto) {
+    return await this.authService.signIn(body.email, body.password);
+  }
+
   @Delete(':id')
   async removeUser(@Param('id') id: string) {
     return this.usersService.remove(+id);
