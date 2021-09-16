@@ -13,10 +13,6 @@ const scrypt = promisify(_scrypt);
 export class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async signIn() {
-    // signIn
-  }
-
   async signUp(email: string, password: string) {
     const users = await this.usersService.find(email);
 
@@ -26,7 +22,7 @@ export class AuthService {
     }
 
     // hash user password
-    const hashedPassword = await this.hashPassword(password);
+    const hashedPassword = await this.hashWithSalt(password);
 
     // create new user
     const user = await this.usersService.create(email, hashedPassword);
@@ -34,7 +30,7 @@ export class AuthService {
     return user;
   }
 
-  private async hashPassword(password: string) {
+  private async hashWithSalt(password: string) {
     const salt = randomBytes(8).toString('hex');
     const hash = (await scrypt(password, salt, 32)) as Buffer;
     return salt + '.' + hash.toString('hex');
@@ -46,5 +42,9 @@ export class AuthService {
     } catch (error) {
       throw new InternalServerErrorException(error, 'Something went wrong!');
     }
+  }
+
+  async signIn() {
+    // signIn
   }
 }
