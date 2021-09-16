@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "hfksd@mp.le",
+  "email": "ex@mp.le",
   "password": "${{$randomInt 10000000 999999999}}"
 }
 
