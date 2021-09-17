@@ -8,15 +8,19 @@ import {
   Post,
   Query,
   Session,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CurrentUser, Serialize } from 'src/decorators';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDto } from './dtos/user.dto';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('auth')
+@UseInterceptors(CurrentUserInterceptor)
 @Serialize(UserDto)
 export class UsersController {
   constructor(
@@ -47,32 +51,30 @@ export class UsersController {
   @Post('signUp')
   async createUser(@Session() session: any, @Body() body: CreateUserDto) {
     const user = await this.authService.signUp(body.email, body.password);
-    session.cookie = user.id;
+    session.userId = user.id;
     return user;
   }
 
   @Post('signIn')
   async signIn(@Session() session: any, @Body() body: CreateUserDto) {
     const user = await this.authService.signIn(body.email, body.password);
-    session.cookie = user.id;
+    session.userId = user.id;
     return user;
   }
 
   @Post('signOut')
   async signOut(@Session() session: any) {
-    session.cookie = null;
+    session.userId = null;
   }
 
   @Post('whoAmI')
   async whoAmI(@Session() session: any) {
-    const userId = session.cookie;
-    console.log('POST whoAmI', { userId });
+    const userId = session.userId;
     return this.usersService.findOne(+userId);
   }
 
-  @Get('whoAmI')
-  currentUser(@CurrentUser() user: any) {
-    console.log('GET currentUser');
-    return 'user';
+  @Get('/user/@me')
+  async currentUser(@CurrentUser() user: User) {
+    return user;
   }
 }

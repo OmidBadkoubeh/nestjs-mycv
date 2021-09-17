@@ -1,25 +1,37 @@
 ### Create a new user
-POST http://localhost:3000/auth/signup
+POST http://localhost:3000/auth/signUp
 Content-Type: application/json
 
 {
-  "email": "ex@mp.le",
-  "password": "${{$randomInt 10000000 999999999}}"
+  "email": "test@gmail.com",
+  "password": "abcd1234"
+}
+
+### Sign in as an existing user
+POST http://localhost:3000/auth/signIn
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  "password": "abcd1234"
 }
 
 ### Find user with a given id
-GET http://localhost:3000/auth/1
+GET http://localhost:3000/auth/14
 
 ### Find all users with a given email
-GET http://localhost:3000/auth?email=hfksd@mp.le
+GET http://localhost:3000/auth?email=ex@mp.le
 
 ### Delete user with a given id
-DELETE http://localhost:3000/auth/1
+DELETE http://localhost:3000/auth/13
 
 ### Update user
-PATCH http://localhost:3000/auth/3
+PATCH http://localhost:3000/auth/12
 Content-Type: application/json
 
 {
-  "password": "an@mail.com123"
+  "password": "abcd1234"
 }
+
+### Who am i?
+GET http://localhost:3000/auth/@me
