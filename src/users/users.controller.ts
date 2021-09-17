@@ -8,8 +8,10 @@ import {
   Post,
   Query,
   Session,
+  UseGuards,
 } from '@nestjs/common';
 import { CurrentUser, Serialize } from 'src/decorators';
+import { AuthGuard } from 'src/guards';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -70,6 +72,7 @@ export class UsersController {
     return this.usersService.findOne(+userId);
   }
 
+  @UseGuards(AuthGuard)
   @Get('/user/@me')
   async currentUser(@CurrentUser() user: User) {
     return user;
