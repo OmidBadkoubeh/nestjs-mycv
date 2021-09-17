@@ -7,8 +7,9 @@ import {
   Patch,
   Post,
   Query,
+  Session,
 } from '@nestjs/common';
-import { Serialize } from 'src/decorators';
+import { CurrentUser, Serialize } from 'src/decorators';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -23,24 +24,19 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get(':id')
-  findUser(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
-
   @Get()
   findAllUsers(@Query('email') email: string) {
     return this.usersService.find(email);
   }
 
-  @Post('signUp')
-  async createUser(@Body() body: CreateUserDto) {
-    return await this.authService.signUp(body.email, body.password);
+  @Get(':id')
+  findUser(@Param('id') id: string) {
+    return this.usersService.findOne(+id);
   }
 
-  @Post('signIn')
-  async signIn(@Body() body: CreateUserDto) {
-    return await this.authService.signIn(body.email, body.password);
+  @Patch(':id')
+  async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.update(+id, body);
   }
 
   @Delete(':id')
@@ -48,8 +44,35 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 
-  @Patch(':id')
-  async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
-    return this.usersService.update(+id, body);
+  @Post('signUp')
+  async createUser(@Session() session: any, @Body() body: CreateUserDto) {
+    const user = await this.authService.signUp(body.email, body.password);
+    session.cookie = user.id;
+    return user;
+  }
+
+  @Post('signIn')
+  async signIn(@Session() session: any, @Body() body: CreateUserDto) {
+    const user = await this.authService.signIn(body.email, body.password);
+    session.cookie = user.id;
+    return user;
+  }
+
+  @Post('signOut')
+  async signOut(@Session() session: any) {
+    session.cookie = null;
+  }
+
+  @Post('whoAmI')
+  async whoAmI(@Session() session: any) {
+    const userId = session.cookie;
+    console.log('POST whoAmI', { userId });
+    return this.usersService.findOne(+userId);
+  }
+
+  @Get('whoAmI')
+  currentUser(@CurrentUser() user: any) {
+    console.log('GET currentUser');
+    return 'user';
   }
 }
