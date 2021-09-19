@@ -15,5 +15,6 @@
   },
   "maxConcurrency": 5,
   "maxWorkers": 1,
+  "detectOpenHandles": true,
   "setupFilesAfterEnv": ["<rootDir>/test/setup.ts"]
 }
