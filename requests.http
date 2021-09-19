@@ -34,4 +34,4 @@ Content-Type: application/json
 }
 
 ### Who am i?
-GET http://localhost:3000/auth/@me
+GET http://localhost:3000/auth/user/@me
