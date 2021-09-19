@@ -1,6 +1,13 @@
 {
+  "rootDir": "../",
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "moduleDirectories": ["node_modules", "<rootDir>/src"],
+  "moduleNameMapper": {
+    "^@(decorators)": "<rootDir>/src/$1",
+    "^@(guards)": "<rootDir>/src/$1",
+    "^@(interceptors)": "<rootDir>/src/$1",
+    "^@?src/(.*)": "<rootDir>/src/$1"
+  },
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
