@@ -38,7 +38,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
 })
 export class AppModule {
+  constructor(private readonly config: ConfigService) {}
+
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(cookieSession({ keys: ['secretCookie'] })).forRoutes('*');
+    consumer
+      .apply(cookieSession({ keys: [this.config.get<string>('COOKIE_KEY')] }))
+      .forRoutes('*');
   }
 }
