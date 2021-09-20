@@ -6,6 +6,7 @@
     "^@(decorators)": "<rootDir>/src/$1",
     "^@(guards)": "<rootDir>/src/$1",
     "^@(interceptors)": "<rootDir>/src/$1",
+    "^@(middlewares)": "<rootDir>/src/$1",
     "^@?src/(.*)": "<rootDir>/src/$1"
   },
   "testEnvironment": "node",

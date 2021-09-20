@@ -13,6 +13,7 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@decorators": ["./src/decorators"],
+      "@middlewares": ["./src/middlewares"],
       "@interceptors": ["./src/interceptors"],
       "@guards": ["./src/guards"]
     },
