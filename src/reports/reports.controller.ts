@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser, Serialize } from '@src/decorators';
-import { AuthGuard } from '@src/guards';
+import { AdminGuard, AuthGuard } from '@src/guards';
 import { User } from '@src/users/user.entity';
 import { ApproveReportDto, CreateReportDto, ReportDto } from './dtos';
 import { ReportsService } from './reports.service';
@@ -24,6 +24,7 @@ export class ReportsController {
   }
 
   @Patch(':id')
+  @UseGuards(AdminGuard)
   async approveReport(@Param('id') id: string, @Body() body: ApproveReportDto) {
     const { approved } = body;
     return this.reportsService.changeApproval(+id, approved);
