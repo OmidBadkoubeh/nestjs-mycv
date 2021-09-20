@@ -12,8 +12,6 @@ export class CurrentUserMiddleware implements NestMiddleware {
     if (userId) {
       const user = await this.usersService.findOne(+userId);
       console.log(user);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       req.currentUser = user;
     }
 
