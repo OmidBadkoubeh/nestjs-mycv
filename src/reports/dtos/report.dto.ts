@@ -13,18 +13,23 @@ export class ReportDto {
   @Expose()
   model: string;
 
+  @Transform(({ value }) => parseInt(value))
   @Expose()
   price: number;
 
+  @Transform(({ value }) => parseInt(value))
   @Expose()
   mileage: number;
 
+  @Transform(({ value }) => parseInt(value))
   @Expose()
   year: number;
 
+  @Transform(({ value }) => parseFloat(value))
   @Expose()
   lat: number;
 
+  @Transform(({ value }) => parseFloat(value))
   @Expose()
   lng: number;
 
